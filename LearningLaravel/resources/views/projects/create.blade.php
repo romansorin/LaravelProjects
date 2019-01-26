@@ -1,25 +1,23 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Untitled</title>
-    </head>
-    <body>
-        <h1>Create a new form</h1>
+@extends('layout')
 
-        <form method="POST" action="/projects">
-        	{{ csrf_field() }}
-			<div>
-				<input type="text" name="title" placeholder="Project title">
-			</div>
-			<div>
-				<textarea name="description" placeholder="Project description"></textarea>
-			</div>
-			<div>
-				<button type="Submit">Create</button>
-			</div>
-        </form>
-    </body>
-</html>
+@section('content')
+<h1 class="title">
+    Create a new form
+</h1>
+<form action="/projects" method="POST">
+    @csrf
+    <div>
+        <input class="input" name="title" placeholder="Project title" type="text">
+        </input>
+    </div>
+    <div>
+        <textarea class="input" name="description" placeholder="Project description">
+        </textarea>
+    </div>
+    <div>
+        <button class="button is-link" type="submit">
+            Create
+        </button>
+    </div>
+</form>
+@endsection
