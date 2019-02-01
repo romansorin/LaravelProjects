@@ -6,18 +6,31 @@
 </h1>
 <form action="/projects" method="POST">
     @csrf
-    <div>
-        <input class="input" name="title" placeholder="Project title" type="text">
-        </input>
+    <div class="field">
+        <label class="label" for="title">
+            Project Title
+        </label>
+        <div class="control">
+            <input class="input {{ $errors->has('title') ? 'is-danger' : '' }}" name="title" type="text" value="{{ old('title') }}">
+            </input>
+        </div>
     </div>
-    <div>
-        <textarea class="input" name="description" placeholder="Project description">
-        </textarea>
+    <div class="field">
+        <label class="label" for="description">
+            Project Description
+        </label>
+        <div class="control">
+            <textarea class="input {{ $errors->has('description') ? 'is-danger' : '' }}" name="description">{{ old('description') }}
+            </textarea>
+        </div>
     </div>
-    <div>
-        <button class="button is-link" type="submit">
-            Create
-        </button>
+    <div class="field">
+        <div class="control">
+            <button class="button is-link" type="submit">
+                Create
+            </button>
+        </div>
     </div>
+    @include ('errors')
 </form>
 @endsection
