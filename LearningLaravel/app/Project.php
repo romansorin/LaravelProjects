@@ -10,7 +10,7 @@ class Project extends Model {
     ];*/
     protected $guarded = [];
     //$guarded is the exact opposite of fillable; these fields cannot be submit
-    //
+
     public function tasks() {
         return $this->hasMany(Task::class);
     }

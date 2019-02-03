@@ -1,5 +1,14 @@
 <?php
 
+// app() or resolve()
+//
+//
+use App\Services\Twitter;
+
+// app()->singleton('App\Services\Twitter', function () {
+//     return new \App\Services\Twitter('dkasdsadasd');
+// });
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,14 +20,19 @@
 |
  */
 
-Route::get('/', function () {
+Route::get('/', function (Twitter $twitter) {
+    dd($twitter);
+
     return view('welcome');
 });
 
 Route::resource('projects', 'ProjectsController');
 
-Route::patch('/tasks/{task}', 'ProjectTasksController@update');
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
+
+Route::post('/completed-tasks/{task}', 'CompletedTasksController@store');
+Route::delete('/completed-tasks/{task}', 'CompletedTasksController@destroy');
+
 /*Route::get('/projects', 'ProjectsController@index');
 Route::get('/projects/create', 'ProjectsController@create');
 Route::get('/projects/{project}', 'ProjectsController@show');
