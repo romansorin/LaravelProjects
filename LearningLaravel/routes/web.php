@@ -41,3 +41,6 @@ Route::get('/projects/{project}/edit', 'ProjectsController@edit');
 Route::patch('/projects/{project}', 'ProjectsController@update');
 Route::delete('/projects/{project}', 'ProjectsController@destroy');
  */
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

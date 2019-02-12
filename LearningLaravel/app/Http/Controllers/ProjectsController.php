@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\Services\Twitter;
 
 class ProjectsController extends Controller {
+    public function __construct() {
+        $this->middleware('auth')->except(['show']);
+    }
+
     public function index() {
-        $projects = Project::all();
+        $projects = Project::where('owner_id', auth()->id())->get();
 
         return view('projects.index', compact('projects'));
     }
@@ -16,8 +19,9 @@ class ProjectsController extends Controller {
         $attributes = request()->validate([
             'title'       => ['required', 'min:3', 'max:255'],
             'description' => ['required', 'min:3'],
-            //'password'   => ['required', 'confirmed']
         ]);
+
+        $attributes['owner_id'] = auth()->id();
 
         Project::create($attributes);
 
@@ -28,9 +32,13 @@ class ProjectsController extends Controller {
         return view('projects.create');
     }
 
-    public function show(Project $project, Twitter $twitter) {
-
-        dd($twitter);
+    public function show(Project $project) {
+        $this->authorize('update', $project);
+        //abort_unless(auth()->user()->owns($project), 403);
+        //  abort_if($project->owner_id !== auth()->id(), 403);
+        // if (\Gate::denies('update', $project)) {
+        //     abort(403);
+        // }
 
         return view('projects.show', compact('project'));
     }
@@ -45,6 +53,7 @@ class ProjectsController extends Controller {
     }
 
     public function destroy(Project $project) {
+
         $project->delete();
 
         return redirect('/projects');
